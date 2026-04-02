@@ -1,4 +1,4 @@
-# E-commerce Website Design
+# LuxeBuy - Premium E-Commerce Website
 
 Welcome to **LuxeBuy**, a premium online destination designed to provide a seamless and high-quality shopping experience. Our platform allows users to browse and purchase a curated selection of tangent goods, ranging from electronics to fashion and home living products, all in one place.
 
