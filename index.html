@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeBuy - Premium E-Commerce</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+    
+    <header class="hero" id="home-hero">
+        <div class="slide active">
+            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&q=80" alt="Summer Collection">
+            <div class="slide-content">
+                <h1 class="hero-title">Summer Collection 2026</h1>
+                <p>Up to 50% off on new arrivals. Upgrade your style today with our premium selection.</p>
+                <a href="products.html" class="btn btn-primary">Shop Now</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1600&q=80" alt="Tech Gadgets">
+            <div class="slide-content">
+                <h1 class="hero-title">Next-Gen Tech Gadgets</h1>
+                <p>Discover the latest and greatest in electronics and smart devices.</p>
+                <a href="categories.html" class="btn btn-primary">Explore Categories</a>
+            </div>
+        </div>
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+        </div>
+    </header>
+
+    <section class="features-section">
+        <div class="container features-grid">
+            <div class="feature-card">
+                <i class="fas fa-shipping-fast feature-icon"></i>
+                <h3>Free Shipping</h3>
+                <p>On all orders over $100</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-undo feature-icon"></i>
+                <h3>30 Days Return</h3>
+                <p>Simple returns policy</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-lock feature-icon"></i>
+                <h3>Secure Payment</h3>
+                <p>100% secure checkout</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-headset feature-icon"></i>
+                <h3>24/7 Support</h3>
+                <p>Dedicated customer service</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories-section" style="background-color: var(--bg-color);">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="category-grid" id="home-categories">
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="container">
+            <h2 class="section-title">Latest Products</h2>
+            <div class="product-grid" id="home-products">
+            </div>
+            <div class="text-center mt-4">
+                <a href="products.html" class="btn btn-outline">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
