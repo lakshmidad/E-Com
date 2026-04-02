@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - LuxeBuy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a> &gt; <span>Cart</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="cart-container">
+            <div class="cart-items" id="cart-list">
+                <!-- Cart items injected via JS -->
+            </div>
+            
+            <div class="cart-summary">
+                <h3 style="margin-bottom: 20px; font-size: 1.25rem;">Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>Free</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total Amount</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+                <a href="checkout.html" class="btn btn-primary btn-block mt-4" style="text-align:center;">Proceed to Checkout</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script>
+        function renderCartPage() {
+            const cartList = document.getElementById('cart-list');
+            if(!cartList) return;
+
+            const cart = getCartItems();
+            if(cart.length === 0) {
+                cartList.innerHTML = '<p>Your cart is empty. <a href="products.html" style="color:var(--primary-color);">Continue shopping</a>.</p>';
+                document.getElementById('cart-subtotal').textContent = '$0.00';
+                document.getElementById('cart-total').textContent = '$0.00';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.title}">
+                        <div>
+                            <div class="cart-item-title">${item.title}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        </div>
+                        <input type="number" value="${item.quantity}" min="1" class="qty-input" onchange="updateQty(${item.id}, this.value)">
+                        <div class="cart-item-subtotal">$${itemTotal.toFixed(2)}</div>
+                        <button class="remove-btn" onclick="removeItem(${item.id})"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+            });
+
+            cartList.innerHTML = html;
+            document.getElementById('cart-subtotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('cart-total').textContent = '$' + total.toFixed(2);
+        }
+
+        function updateQty(id, qty) {
+            updateCartQuantity(id, parseInt(qty));
+            renderCartPage();
+        }
+
+        function removeItem(id) {
+            removeFromCart(id);
+            renderCartPage();
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCartPage);
+    </script>
+</body>
+</html>

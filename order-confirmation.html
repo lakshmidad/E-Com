@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - LuxeBuy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .conf-bg { background: var(--bg-color); min-height: 70vh; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="conf-bg">
+        <div class="order-confirmation container">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h1>Thank You for Your Order!</h1>
+            <p>Your order has been placed successfully and is being processed.</p>
+            
+            <div class="order-details-box">
+                <p>Order Number: <span id="display-order-no">#</span></p>
+                <p>Status: <span style="color:#10B981;">Confirmed - Processing</span></p>
+                <p>Estimated Delivery: <span>3-5 Business Days</span></p>
+            </div>
+            
+            <a href="index.html" class="btn btn-primary" style="margin-top: 20px;">Return to Home</a>
+            <a href="products.html" class="btn btn-outline" style="margin-top: 20px; margin-left: 10px;">Continue Shopping</a>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderNo = urlParams.get('order') || 'ORD-9938472';
+            document.getElementById('display-order-no').textContent = orderNo;
+        });
+    </script>
+</body>
+</html>

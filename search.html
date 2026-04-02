@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - LuxeBuy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .search-area { background: var(--white); padding: 40px; border-radius: var(--border-radius); box-shadow: var(--shadow-sm); margin-top: -30px; position: relative; z-index: 10; margin-bottom: 40px;}
+        .search-input-group { display: flex; gap: 10px; max-width: 600px; margin: 0 auto; }
+        .search-input-group input { flex-grow: 1; padding: 15px 20px; border: 1px solid var(--border-color); border-radius: var(--border-radius); font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-header" style="padding-bottom: 80px;">
+        <div class="container">
+            <h1>Search Products</h1>
+            <p style="opacity:0.9; margin-top:10px;">Find exactly what you're looking for</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-area">
+            <div class="search-input-group">
+                <input type="text" id="searchInput" placeholder="Search by product name or keyword..." autofocus>
+                <button class="btn btn-primary" onclick="performSearch()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h2 style="font-size: 1.5rem;" id="search-title">All Products</h2>
+        </div>
+
+        <div class="product-grid" id="search-results-grid" style="margin-bottom: 60px;">
+            <!-- Loaded via JS -->
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script>
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const grid = document.getElementById('search-results-grid');
+            const title = document.getElementById('search-title');
+
+            if(query === '') {
+                renderSearchList(productsData);
+                title.textContent = 'All Products';
+                return;
+            }
+
+            const results = productsData.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query)
+            );
+
+            title.textContent = `Search Results for "${query}" (${results.length})`;
+            renderSearchList(results);
+        }
+
+        // Wait for script.js and products helper
+        function renderSearchList(products) {
+            const grid = document.getElementById('search-results-grid');
+            if(products.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-light); padding: 40px;">No products found matching your search. Try different keywords.</p>';
+            } else {
+                grid.innerHTML = products.map(createProductCard).join('');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup initial view
+            renderSearchList(productsData);
+            
+            // Allow enter key to search
+            document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Get query from basic implementation in script.js (Optional hook)
+            // Just native element here:
+            document.getElementById('searchInput').value = '';
+        });
+    </script>
+</body>
+</html>

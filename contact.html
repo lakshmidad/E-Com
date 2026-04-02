@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - LuxeBuy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a> &gt; <span>Contact</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container contact-container">
+        <div class="contact-info">
+            <h2 style="margin-bottom: 30px;">Get In Touch</h2>
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt info-icon"></i>
+                <div>
+                    <h3 style="margin-bottom: 5px;">Our Location</h3>
+                    <p style="color: var(--text-light);">123 Tech Avenue, Innovation City, NY 10001</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-phone-alt info-icon"></i>
+                <div>
+                    <h3 style="margin-bottom: 5px;">Phone Number</h3>
+                    <p style="color: var(--text-light);">+1 (800) 123-4567<br>Mon-Fri 9am-6pm</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope info-icon"></i>
+                <div>
+                    <h3 style="margin-bottom: 5px;">Email Address</h3>
+                    <p style="color: var(--text-light);">support@luxebuy.com</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-wrapper" style="background: var(--white); padding: 40px; border-radius: var(--border-radius); box-shadow: var(--shadow-sm);">
+            <h2 style="margin-bottom: 30px;">Send Us a Message</h2>
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group" id="nameGroup">
+                        <label>Your Name</label>
+                        <input type="text" id="contactName" placeholder="John Doe">
+                        <div class="error-msg">Please enter your name.</div>
+                    </div>
+                    <div class="form-group" id="emailGroup">
+                        <label>Email Address</label>
+                        <input type="email" id="contactEmail" placeholder="john@example.com">
+                        <div class="error-msg">Please enter a valid email address.</div>
+                    </div>
+                </div>
+                <div class="form-group" id="subjectGroup">
+                    <label>Subject</label>
+                    <input type="text" id="contactSubject" placeholder="How can we help?">
+                    <div class="error-msg">Please enter a subject.</div>
+                </div>
+                <div class="form-group" id="messageGroup">
+                    <label>Message</label>
+                    <textarea id="contactMessage" rows="5" placeholder="Write your message here..."></textarea>
+                    <div class="error-msg">Please enter your message.</div>
+                </div>
+                <div id="successMsg" style="display:none; color:#10B981; font-weight:600; margin-bottom:15px; text-align:center;">
+                    Thank you! Your message has been sent successfully.
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+                
+                // Name validation
+                if($('#contactName').val().trim() === '') {
+                    $('#nameGroup').addClass('invalid');
+                    isValid = false;
+                } else {
+                    $('#nameGroup').removeClass('invalid');
+                }
+
+                // Email validation using basic regex
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const emailVal = $('#contactEmail').val().trim();
+                if(emailVal === '' || !emailRegex.test(emailVal)) {
+                    $('#emailGroup').addClass('invalid');
+                    isValid = false;
+                } else {
+                    $('#emailGroup').removeClass('invalid');
+                }
+
+                // Subject validation
+                if($('#contactSubject').val().trim() === '') {
+                    $('#subjectGroup').addClass('invalid');
+                    isValid = false;
+                } else {
+                    $('#subjectGroup').removeClass('invalid');
+                }
+
+                // Message validation
+                if($('#contactMessage').val().trim() === '') {
+                    $('#messageGroup').addClass('invalid');
+                    isValid = false;
+                } else {
+                    $('#messageGroup').removeClass('invalid');
+                }
+
+                if(isValid) {
+                    $('#successMsg').slideDown();
+                    $('#contactForm')[0].reset();
+                    setTimeout(function() {
+                        $('#successMsg').slideUp();
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

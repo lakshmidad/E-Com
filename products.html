@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - LuxeBuy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+    
+    <div class="page-header">
+        <div class="container">
+            <h1>Our Products</h1>
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a> &gt; <span>Products</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container products-layout">
+        <aside class="sidebar">
+            <div class="filter-group">
+                <h3 class="filter-title">Categories</h3>
+                <ul class="filter-list">
+                    <li><label><input type="radio" name="category" value="all" checked> All Categories</label></li>
+                    <li><label><input type="radio" name="category" value="electronics"> Electronics</label></li>
+                    <li><label><input type="radio" name="category" value="fashion"> Fashion</label></li>
+                    <li><label><input type="radio" name="category" value="home"> Home & Living</label></li>
+                    <li><label><input type="radio" name="category" value="accessories"> Accessories</label></li>
+                </ul>
+            </div>
+            <div class="filter-group">
+                <h3 class="filter-title">Price Range</h3>
+                <div class="price-input">
+                    <input type="number" id="min-price" placeholder="Min $">
+                    <span>-</span>
+                    <input type="number" id="max-price" placeholder="Max $">
+                </div>
+            </div>
+            <button id="apply-filter" class="btn btn-primary btn-block">Apply Filters</button>
+        </aside>
+
+        <main>
+            <div class="product-grid" id="all-products-grid">
+                <!-- Products dynamically loaded here via script.js -->
+            </div>
+        </main>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
