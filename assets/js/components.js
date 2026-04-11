@@ -17,7 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <li><a href="contact.html" class="nav-contact">Contact Us</a></li>
             </ul>
             <div class="nav-icons">
+                <a href="#" id="theme-toggle" title="Toggle Dark Mode" style="cursor: pointer;"><i class="fas fa-moon"></i></a>
                 <a href="search.html"><i class="fas fa-search"></i></a>
+                <a href="wishlist.html" title="Wishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="cart-badge wishlist-count" style="background-color: #8B5CF6;">0</span>
+                </a>
                 <a href="cart.html">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge cart-count">0</span>
@@ -55,16 +60,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h3>Connect With Us</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fab fa-facebook mr-2"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-twitter mr-2"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-instagram mr-2"></i> Instagram</a></li>
+                    <h3>Newsletter Subscription</h3>
+                    <p style="margin-bottom: 10px; color: #9ca3af; font-size:0.9rem;">Join our mailing list to get 10% off your first order!</p>
+                    <form onsubmit="event.preventDefault(); alert('Thanks for subscribing!');" style="display:flex; gap:5px;">
+                        <input type="email" placeholder="Your email..." required style="padding: 10px; border:none; border-radius:4px; flex-grow:1;">
+                        <button type="submit" class="btn btn-primary" style="padding: 10px 15px;"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    <h3 style="margin-top: 25px;">Connect With Us</h3>
+                    <ul class="footer-links" style="display:flex; gap:15px;">
+                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 LuxeBuy E-Commerce. All rights reserved. Developed for Internship Project.</p>
+                <p>&copy; 2026 LuxeBuy E-Commerce. All rights reserved. Upgraded with Dark Mode & Wishlist!</p>
             </div>
         </div>
     </footer>
@@ -121,4 +132,29 @@ document.addEventListener("DOMContentLoaded", () => {
     scrollTopBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
+
+    // Dark Mode Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const icon = themeToggle ? themeToggle.querySelector('i') : null;
+    
+    // Check local storage for preference
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (icon) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                if (icon) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
+            } else {
+                localStorage.setItem('theme', 'light');
+                if (icon) { icon.classList.remove('fa-sun'); icon.classList.add('fa-moon'); }
+            }
+        });
+    }
 });
