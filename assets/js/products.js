@@ -14,7 +14,12 @@ const productsData = [
     { id: 12, title: 'Handwoven Cotton Throw Blanket', category: 'home', price: 45.00, image: 'https://thoppia.com/wp-content/uploads/2023/07/Grey-yellow_straw_3.jpg', rating: 4.9, description: 'Cozy and decorative 50x60 inch woven throw blanket. Made from purely sustainably sourced organic cotton with decorative fringe edges.' },
     { id: 13, title: 'Geometric Ceramic Planter', category: 'home', price: 32.00, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500&q=80', rating: 4.5, description: 'A beautifully sculpted minimalist indoor planter with a built-in drainage hole and matching catch plate. Excellent for succulents or small ferns.' },
     { id: 14, title: 'Sterling Silver Pendant', category: 'accessories', price: 85.00, image: 'https://lh5.googleusercontent.com/proxy/4L3aFiU-TX8JBIPpT0CglOtwdm0xf6T50cpMBpgkV67TPsDItEp8f4G1gk3UZko2r1wR20Hb7j-VhNQm1QSr1YB6cyIPMJ4t6KpoGGWh9SW7hYylGQ', rating: 4.8, description: 'Hypoallergenic 925 sterling silver chain featuring an intricately cut cubic zirconia pendant. Comes in a soft velvet protective presentation box.' },
-    { id: 15, title: 'Canvas Weekend Duffel Bag', category: 'accessories', price: 95.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80', rating: 4.6, description: 'Spacious 45L travel duffel crafted from heavy-duty waxed canvas with authentic full-grain leather carrying handles and brass hardware.' }
+    { id: 15, title: 'Canvas Weekend Duffel Bag', category: 'accessories', price: 95.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80', rating: 4.6, description: 'Spacious 45L travel duffel crafted from heavy-duty waxed canvas with authentic full-grain leather carrying handles and brass hardware.' },
+    { id: 16, title: 'Smart LED Desk Lamp', category: 'home', price: 49.99, image: 'https://images.unsplash.com/photo-1517705008128-361805f42e86?w=500&q=80', rating: 4.5, description: 'Dimmable LED desk lamp with adjustable color temperature, wireless charging base, and flexible gooseneck design.' },
+    { id: 17, title: 'Wireless Mechanical Keyboard', category: 'electronics', price: 129.00, image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?w=500&q=80', rating: 4.8, description: 'Compact 75% layout mechanical keyboard with hot-swappable switches, RGB backlighting, and dual-mode wireless connectivity.' },
+    { id: 18, title: 'Premium Running Shoes', category: 'fashion', price: 135.00, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80', rating: 4.7, description: 'Lightweight breathable running shoes featuring responsive cushioning and durable rubber outsoles for optimum performance.' },
+    { id: 19, title: 'Stainless Steel Water Bottle', category: 'accessories', price: 29.50, image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&q=80', rating: 4.9, description: 'Double-wall vacuum insulated water bottle keeping beverages cold for 24 hours or hot for 12 hours. BPA-free design.' },
+    { id: 20, title: 'Noise Isolating Earbuds', category: 'electronics', price: 59.99, image: 'https://images.unsplash.com/photo-1572569431925-8f2e29302636?w=500&q=80', rating: 4.4, description: 'In-ear true wireless earbuds with immersive sound, active noise isolation, and up to 24 hours of total playback time.' }
 ];
 
 const categoriesData = [
@@ -66,6 +71,68 @@ function clearCart() {
     updateCartIcon();
 }
 
+// ----- WISHLIST LOGIC -----
+function getWishlistItems() {
+    return JSON.parse(localStorage.getItem('wishlist')) || [];
+}
+
+function toggleWishlist(productId) {
+    let wishlist = getWishlistItems();
+    const index = wishlist.findIndex(item => item.id === productId);
+    const product = productsData.find(p => p.id === productId);
+    
+    if (index > -1) {
+        wishlist.splice(index, 1);
+        showToast(`${product.title} removed from wishlist`);
+    } else if (product) {
+        wishlist.push(product);
+        showToast(`${product.title} added to wishlist!`);
+    }
+    
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    updateWishlistIcon();
+    
+    // Re-render grids if they exist to update the heart icon colors immediately
+    if (typeof renderHomePage === "function") renderHomePage();
+    if (typeof renderProductsPage === "function") renderProductsPage();
+    if (typeof performSearch === "function") {
+      const searchInput = document.getElementById('searchInput');
+      if(searchInput && searchInput.value !== undefined) performSearch();
+    }
+    if (typeof renderWishlistPage === "function") renderWishlistPage();
+}
+
+function clearWishlist() {
+    localStorage.removeItem('wishlist');
+    updateWishlistIcon();
+    showToast('Wishlist cleared!');
+    if (typeof renderWishlistPage === "function") renderWishlistPage();
+}
+
+function addAllToCart() {
+    const wishlist = getWishlistItems();
+    if (wishlist.length === 0) return;
+    
+    let cart = getCartItems();
+    wishlist.forEach(item => {
+        let existingItem = cart.find(cartItem => cartItem.id === item.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...item, quantity: 1 });
+        }
+    });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartIcon();
+    showToast('All items added to cart!');
+}
+
+function updateWishlistIcon() {
+    const wishlist = getWishlistItems();
+    const counts = document.querySelectorAll('.wishlist-count');
+    counts.forEach(count => count.textContent = wishlist.length);
+}
+
 function updateCartIcon() {
     const cart = getCartItems();
     const counts = document.querySelectorAll('.cart-count');
@@ -90,6 +157,10 @@ function createProductCard(product) {
         `<i class="${i < Math.floor(product.rating) ? 'fas' : 'far'} fa-star"></i>`
     ).join('');
 
+    const wishlist = getWishlistItems();
+    const isWished = wishlist.some(item => item.id === product.id);
+    const heartState = isWished ? 'wishlist-active fas' : 'far';
+
     return `
         <div class="product-card">
             <div class="product-image">
@@ -99,6 +170,9 @@ function createProductCard(product) {
                 <div class="product-actions">
                     <button class="action-btn" title="Add to Cart" onclick="addToCart(${product.id})">
                         <i class="fas fa-shopping-cart"></i>
+                    </button>
+                    <button class="action-btn ${isWished ? 'wishlist-active' : ''}" title="Wishlist" onclick="toggleWishlist(${product.id})">
+                        <i class="${heartState} fa-heart"></i>
                     </button>
                     <a href="product-view.html?id=${product.id}" class="action-btn" title="View details">
                         <i class="fas fa-eye"></i>
@@ -115,7 +189,8 @@ function createProductCard(product) {
     `;
 }
 
-// Ensure updateCartIcon runs universally
+// Ensure icons run universally
 document.addEventListener('DOMContentLoaded', () => {
     updateCartIcon();
+    updateWishlistIcon();
 });
